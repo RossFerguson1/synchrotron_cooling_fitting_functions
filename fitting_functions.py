@@ -340,9 +340,6 @@ class Power_Law_Cooling_Pitch_Angle_Averaged_Class:
     '''
     
     def __init__(self, x1, eta, p):
-        # self.x1: Float[np.ndarray, "..."] = x1
-        # self.x1 = x1
-        # self.eta: float = eta
         x1_arr, eta_arr = np.meshgrid(x1, eta)
         self.x1 = x1_arr
         self.eta = eta_arr
@@ -398,12 +395,6 @@ class Power_Law_Cooling_Pitch_Angle_Averaged_Class:
         val = prefactor*x1**((p-1)/2)*F_pitch_angle_averaged(x1)*(hyper_term1 - hyper_term2)
         val[eta<1.0005] = (x1**((p-1)/2)*F_pitch_angle_averaged(x1)* 2**(1)*(1/(p-1))*(eta-1)**(p-1))[eta<1.0005]
         return val
-        # if eta<= 1.0005:
-        #     # low_eta_corr = (eta-1)**(p-1)*2**(1-p)*(1/3-p)*special.gamma(1-p)/special.gamma(2-p)
-        #     low_eta_corr = 2**(1)*(1/(p-1))*(eta-1)**(p-1)
-        #     return  x1**((p-1)/2)*F_pitch_angle_averaged(x1)*low_eta_corr
-        # else:
-        #     return prefactor*x1**((p-1)/2)*F_pitch_angle_averaged(x1)*(hyper_term1 - hyper_term2)
         
     def chi_p(self):
         """Exact low-frequency solution for power-law absorption   (eq. (43), FM26b)
@@ -425,13 +416,6 @@ class Power_Law_Cooling_Pitch_Angle_Averaged_Class:
         val = prefactor*x2**((p+4)/2)*(hyper_term1 - hyper_term2)*H_pitch_angle_averaged(x2)
         val[eta<1.0005] = (x1**((p+4)/2)*H_pitch_angle_averaged(x1)* 2**(1)*(1/(p-1))*(eta-1)**(p-1))[eta<1.0005]
         return val
-
-        # if eta<= 1.0005:
-        #     # low_eta_corr = (eta-1)**(p-1)*2**(1-p)*(1/3-p)*special.gamma(1-p)/special.gamma(2-p)
-        #     low_eta_corr = 2**(1)*(1/(p-1))*(eta-1)**(p-1)
-        #     return  x1**((p+4)/2)*H_pitch_angle_averaged(x1)*low_eta_corr
-        # else:
-        #     return prefactor*x2**((p+4)/2)*(hyper_term1 - hyper_term2)*H_pitch_angle_averaged(x2)
 
     def const(self, coeff_params):
         return np.polynomial.polynomial.Polynomial(coeff_params)(self.p)
@@ -579,9 +563,6 @@ class Power_Law_Cooling_Perpendicular_Pitch_Angle_Class:
     '''
     
     def __init__(self, x1, eta, p):
-        # self.x1: Float[np.ndarray, "..."] = x1
-        # self.x1 = x1
-        # self.eta: float = eta
         x1_arr, eta_arr = np.meshgrid(x1, eta)
         self.x1 = x1_arr
         self.eta = eta_arr
@@ -637,20 +618,6 @@ class Power_Law_Cooling_Perpendicular_Pitch_Angle_Class:
         val[eta<1.0005] = ( x1**((p-1)/2)*F(x1)* 2**(1)*(1/(p-1))*(eta-1)**(p-1))[eta<1.0005]
         return val
 
-        # if eta<= 1.0005:
-        #     # low_eta_corr = (eta-1)**(p-1)*2**(1-p)*(1/3-p)*special.gamma(1-p)/special.gamma(2-p)
-        #     low_eta_corr = 2**(1)*(1/(p-1))*(eta-1)**(p-1)
-        #     return  x1**((p-1)/2)*F(x1)*low_eta_corr
-        # else:
-        #     return prefactor*x1**((p-1)/2)*F(x1)*(hyper_term1 - hyper_term2)
-
-        # prefactor = (6/(3*p-1))
-        # x2 = x1/eta**2
-
-        # hyper_term1 = special.hyp2f1(-(p-2), -(p-1/3), -(p-4/3), eta**(-1))*eta**(p-1/3)
-        # hyper_term2 = (special.gamma(p-1)*special.gamma(-(p-4/3))/special.gamma(-2/3))
-        # return prefactor*x2**((p-1)/2)*(hyper_term1 - hyper_term2)*F(x2)
-        
     def chi_p(self):
         """Exact low-frequency solution for power-law absorption   (eq. (43), FM26b) adjusted for perpendicular pitch-angles via the replacement H_tilde -> H
 
@@ -671,14 +638,6 @@ class Power_Law_Cooling_Perpendicular_Pitch_Angle_Class:
         val =prefactor*x2**((p+4)/2)*(hyper_term1 - hyper_term2)*H(x2)
         val[eta<1.0005] = ( x1**((p+4)/2)*H(x1)* 2**(1)*(1/(p-1))*(eta-1)**(p-1))[eta<1.0005]
         return val
-
-
-        # if eta<= 1.0005:
-        #     # low_eta_corr = (eta-1)**(p-1)*2**(1-p)*(1/3-p)*special.gamma(1-p)/special.gamma(2-p)
-        #     low_eta_corr = 2**(1)*(1/(p-1))*(eta-1)**(p-1)
-        #     return  x1**((p+4)/2)*H(x1)*low_eta_corr
-        # else:
-        #     return prefactor*x2**((p+4)/2)*(hyper_term1 - hyper_term2)*H(x2)
 
     def const(self, coeff_params):
         return np.polynomial.polynomial.Polynomial(coeff_params)(self.p)
@@ -727,18 +686,9 @@ class Power_Law_Cooling_Perpendicular_Pitch_Angle_Class:
         b3_params = np.array([ 2.75111825, -4.60109385,  2.24668601, -0.3711466 ,  0.02103266])
         b4_params = np.array([-34.95209614,  33.92729159, -10.45741016,   1.35654969, -0.06313555])
         b5_params = np.array([ 9.25573766e+02, -1.20969017e+03,  6.16930944e+02, -1.53036031e+02, 1.85034856e+01, -8.74682989e-01])
-
-        # b1_params = np.array([ 0.18249006, -0.20069945,  0.07903454, -0.01283864,  0.00073792])
-        # b2_params = np.array([-3.07967439,  4.89022656, -2.05405389,  0.3350416 , -0.01904601])
-        # b3_params = np.array([ 2.7659159 , -4.69355537,  2.31855741, -0.38846419,  0.02234534])
-        # b4_params = np.array([-37.39125051,  36.87515139, -11.69706257,   1.57389307, -0.07672356])
-        # b5_params = np.array([ 6.99121782e+02, -9.11762830e+02,  4.64659257e+02, -1.15132717e+02, 1.38979386e+01, -6.55706445e-01])
-
-        # Sigma_low = np.sqrt(np.pi)*2**((p+2)/2)*(1/(p+4))*special.gamma(p/4 + 3/2)*special.gamma(p/4 + 11/6)*special.gamma(p/4 + 1/6)/ \
-        #                     special.gamma(p/4+1)
+        
         Sigma_low = self.B1()
         Sigma_high = np.sqrt(2/np.pi) * (self.psi_p((p+1)/2) + 0.5*self.psi_p((p-1)/2))
-        # Sigma_high = self.psi_p((p+1)/2) + 0.5*self.psi_p((p-1)/2)
 
         b1, b2, b3, b4, b5= self.const(b1_params), self.const(b2_params), self.const(b3_params), self.const(b4_params), self.const(b5_params)
         
@@ -793,7 +743,7 @@ class Power_Law_Cooling_Perpendicular_Pitch_Angle_Class:
 
         beta1_nominal = 0.124254436 -2.26464609e+01*(p+6.10099043)**-3 -1.33775759e-04*(p-2.00999923)**2.72590914 + 5.13811875e-01*(p-3.43615856e-01)**-5
         beta1 = beta1_nominal  - 0.02*np.exp(-1e4*(eta-1.1)**2)
-        beta2 = 2 #+ 2.5*np.exp(-100*(eta**2-1.1)**2)
+        beta2 = 2 
         beta3 = 0.47
         beta4 = 2.97*p - 3.13
 
@@ -825,14 +775,10 @@ class Thermal_Cooling_Pitch_Angle_Averaged_Class:
         *A_th : Thermal cooled absorption fitting function (eq. (80), FM26b)
     '''
     def __init__(self,y, zmax):
-        # self.y: Float[np.ndarray, "..."] = y
         y_arr, zmax_arr = np.meshgrid(y, zmax)
         self.y = y_arr
         self.zmax = zmax_arr
-        # self.y = y
-        # self.zmax = zmax
 
-    # def zs_fit(self) -> Float[np.ndarray, "..."]:
     def zs_fit(self):
         """Analytic approximation for saddle point z_s (eq. (78), FM26b)
 
@@ -849,7 +795,6 @@ class Thermal_Cooling_Pitch_Angle_Averaged_Class:
         ts_high = (-4/ self.zmax -3 + np.sqrt((4/ self.zmax + 3)**2 + 4*(self.y/ymax - 12/ self.zmax)))/(2*(self.y/ymax - 12/ self.zmax))
         return ((( self.zmax -  self.zmax*ts_high)**-a + P**-a)**(-1/a))
 
-    # def z_s(self)-> Float[np.ndarray, "..."]:
     def z_s(self):
         """Exact calculation of saddle point z_s (defined by eq. (75), FM26b)
 
@@ -870,12 +815,10 @@ class Thermal_Cooling_Pitch_Angle_Averaged_Class:
             roots = np.roots((a,b,c[i],d[i],e[i]))
             real_roots = roots[np.isreal(roots)].real
             pos_real_roots = real_roots[real_roots > 0]
-        # print(pos_real_roots)
             val[i]= np.min(pos_real_roots)
 
         return val
 
-    # def xi(self, q)-> Float[np.ndarray, "..."]:
     def xi(self, q):
         """Steepest descent approximation for thermal coefficients  (eqs. (71, 72), FM26b)
 
@@ -894,7 +837,6 @@ class Thermal_Cooling_Pitch_Angle_Averaged_Class:
         phi_double_prime = -2/(self.zmax*(1-z_s_val/ self.zmax)**3) - 6*self.y/z_s_val**4 + 4/( self.zmax-z_s_val)**2
         return np.sqrt(-2*np.pi/phi_double_prime)*z_s_val**q*np.exp(phi_val)
 
-    # def J_th(self)-> Float[np.ndarray, "..."]:
     def J_th(self):
         """Thermal cooled emission fitting function (eq. (79), FM26b)
 
@@ -926,15 +868,9 @@ class Thermal_Cooling_Pitch_Angle_Averaged_Class:
         J_low_y =  F_pitch_angle_averaged(y/zmax**2) * zmax**(9/3)*special.gamma(7/3)*special.hyperu(7/3, 4, zmax)
         J_low_y[zmax <= 1e-2] = (F_pitch_angle_averaged(y/zmax**2) * zmax**(9/3)*special.gamma(7/3)*(-27/(4*special.gamma(-2/3)*zmax**3) - 9/(4*special.gamma(-2/3)*zmax**2)))[zmax <= 1e-2]
 
-        # if zmax > 1e-2:
-        #     J_low_y = F_pitch_angle_averaged(y/zmax**2) * zmax**(9/3)*special.gamma(7/3)*special.hyperu(7/3, 4, zmax)
-        # else:
-        #     J_low_y = F_pitch_angle_averaged(y/zmax**2) * zmax**(9/3)*special.gamma(7/3)*(-27/(4*special.gamma(-2/3)*zmax**3) - 9/(4*special.gamma(-2/3)*zmax**2))
-
         #Complete fitting function (eq. (79) in FM26b)
         return J_low_y*np.exp(-lambda1*(y/y_t_approx)**1.015 * zeta) + (1 + sigma*(y/( y_t_approx))**-0.5)*J_high_y*(1-np.exp(-lambda2*(y/y_t_approx)**1.015 * zeta))
 
-    # def A_th(self)-> Float[np.ndarray, "..."]:
     def A_th(self):
         """Thermal cooled absorption fitting function (eq. (80), FM26b)
 
@@ -955,8 +891,6 @@ class Thermal_Cooling_Pitch_Angle_Averaged_Class:
                 -1.00937174e+05   *(zmax)**(4/3) +4.81969142e+04*zmax**(6/3)))*(1-np.exp(-80/zmax**1.5)) + 9.4073*np.exp(-80/zmax)
         mu2 = 10**(( -1.16426815    + 1.015*np.log10(zmax))* (1 +1.11467153e+05*(zmax)**(2/3)-6.18406042e+04 *(zmax)**(4/3) +5.82434317e+04 *zmax**(6/3))/(1 +  7.53599070e+04*(zmax)**(2/3)\
                 +4.02618689e+04    *(zmax)**(4/3)  +9.80602555e+04*zmax**(6/3)))*(1-np.exp(-40/zmax**1.5)) + 5.6793*np.exp(-40/zmax)
-        # mu1 =  mu1/ min_x**1.015
-        # mu2 = mu2/ min_x**1.015 
         sigma = np.exp(-1e3*zmax**-2) 
         zeta = np.exp(-1e-7/zmax**2)
 
@@ -965,12 +899,7 @@ class Thermal_Cooling_Pitch_Angle_Averaged_Class:
 
         A_low_y =  H_pitch_angle_averaged(y/zmax**2) * zmax**(-6/3)*special.gamma(4/3)*special.hyperu(4/3, 4, zmax)
         A_low_y[zmax <= 1e-2] = ( H_pitch_angle_averaged(y/zmax**2) * zmax**(-6/3)*special.gamma(4/3)*(27/(5*special.gamma(-5/3)*zmax**3) + 9/(2*special.gamma(-5/3)*zmax**2)))[zmax <= 1e-2]
-
-        # if zmax > 1e-2:
-        #     A_low_y = H_pitch_angle_averaged(y/zmax**2) * zmax**(-6/3)*special.gamma(4/3)*special.hyperu(4/3, 4, zmax)
-        # else:
-        #     A_low_y = H_pitch_angle_averaged(y/zmax**2) * zmax**(-6/3)*special.gamma(4/3)*(27/(5*special.gamma(-5/3)*zmax**3) + 9/(2*special.gamma(-5/3)*zmax**2))
-
+        
         #Complete fitting function (eq. (80) in FM26b)
         return A_low_y*np.exp(-mu1*(y/y_t_approx)**1.015 * zeta) + (1 + sigma*(y/(y_t_approx))**-0.5)*A_high_y*(1-np.exp(-mu2*(y/y_t_approx)**1.015 *zeta))
 
@@ -993,15 +922,11 @@ class Thermal_Cooling_Perpendicular_Pitch_Angle_Class:
         *A_th : Thermal cooled absorption fitting function (eq. (C40), FM26b)
     '''
     def __init__(self,y, zmax):
-        # self.y: Float[np.ndarray, "..."] = y
-        # self.y: Float[np.ndarray, "..."] = y
+
         y_arr, zmax_arr = np.meshgrid(y, zmax)
         self.y = y_arr
         self.zmax = zmax_arr
-        # self.y = y
-        # self.zmax = zmax
 
-    # def zs_fit(self) -> Float[np.ndarray, "..."]:
     def zs_fit(self):
         """Analytic approximation for saddle point z_s (eq. (78), FM26b)
 
@@ -1043,7 +968,6 @@ class Thermal_Cooling_Perpendicular_Pitch_Angle_Class:
 
         return val
 
-    # def xi(self, q)-> Float[np.ndarray, "..."]:
     def xi(self, q):
         """Steepest descent approximation for thermal coefficients  (eqs. (71, 72), FM26b)
 
@@ -1094,15 +1018,9 @@ class Thermal_Cooling_Perpendicular_Pitch_Angle_Class:
         J_low_y =  F(y/zmax**2) * zmax**(9/3)*special.gamma(7/3)*special.hyperu(7/3, 4, zmax)
         J_low_y[zmax <= 1e-2] = (F(y/zmax**2) * zmax**(9/3)*special.gamma(7/3)*(-27/(4*special.gamma(-2/3)*zmax**3) - 9/(4*special.gamma(-2/3)*zmax**2)))[zmax <= 1e-2]
 
-        # if zmax > 1e-2:
-        #     J_low_y = F(y/zmax**2) * zmax**(9/3)*special.gamma(7/3)*special.hyperu(7/3, 4, zmax)
-        # else:
-        #     J_low_y = F(y/zmax**2) * zmax**(9/3)*special.gamma(7/3)*(-27/(4*special.gamma(-2/3)*zmax**3) - 9/(4*special.gamma(-2/3)*zmax**2))
-
         #Complete fitting function (eq. (79) in FM26b)
         return J_low_y*np.exp(-lambda1*(y/y_t_approx) * zeta) + (1 + sigma*(y/( y_t_approx))**-0.4)*J_high_y*(1-np.exp(-lambda2*(y/y_t_approx) * zeta))
 
-    # def A_th(self)-> Float[np.ndarray, "..."]:
     def A_th(self):
         """Thermal cooled absorption fitting function (eq. (C40), FM26b)
 
@@ -1124,8 +1042,6 @@ class Thermal_Cooling_Perpendicular_Pitch_Angle_Class:
         mu2 = 10**(( -5.70831022e-03    + 2.75340535e-03*np.log10(zmax))* (1 +4.08e4*(zmax)**(2/3) -1.754e4*(zmax)**(4/3)+2.29e3*zmax**(6/3))/(1 +1.86e2*(zmax)**(2/3)\
                     -90.9*(zmax)**(4/3) +12.99*zmax**(6/3)))*(1-np.exp(-20/zmax**1.2)) + 0.812*np.exp(-20/zmax)
 
-        # mu1 =  mu1/ min_x**1.015  #* ( 1 + 0.5*np.exp(-5*(zmax - 1)**2) - 0.35*np.exp(-10*(zmax - 2)**2) - 0.48*np.exp(-10*(zmax - 2.5)**2))
-        # mu2 = mu2/ min_x**1.015 #* (1 - 0.45*np.exp(-2*(zmax-2.5)**2))#* ( 1 + 4*np.exp(-10*(zmax-3)**2) - 0.7*np.exp(-.01*(zmax-15)**2))
         sigma = 3.833  -3.83299*np.exp(-(zmax-1)**2)
         mu2 *= 1 + 4*np.exp(-1*(zmax-2)**2)
 
@@ -1133,11 +1049,6 @@ class Thermal_Cooling_Perpendicular_Pitch_Angle_Class:
 
         A_low_y =  H(y/zmax**2) * zmax**(-6/3)*special.gamma(4/3)*special.hyperu(4/3, 4, zmax)
         A_low_y[zmax <= 1e-2] = ( H(y/zmax**2) * zmax**(-6/3)*special.gamma(4/3)*(27/(5*special.gamma(-5/3)*zmax**3) + 9/(2*special.gamma(-5/3)*zmax**2)))[zmax <= 1e-2]
-
-        # if zmax > 1e-2:
-        #     A_low_y = H(y/zmax**2) * zmax**(-6/3)*special.gamma(4/3)*special.hyperu(4/3, 4, zmax)
-        # else:
-        #     A_low_y = H(y/zmax**2) * zmax**(-6/3)*special.gamma(4/3)*(27/(5*special.gamma(-5/3)*zmax**3) + 9/(2*special.gamma(-5/3)*zmax**2))
 
         S1 = np.exp(-1e-7/zmax**2)
 
