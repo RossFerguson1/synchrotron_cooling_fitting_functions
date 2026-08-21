@@ -3,8 +3,7 @@
     This module calculates the local cooled synchrotron emission and absorption from two populations of electrons,
     power-law and thermal, following the formalism presented in Ferguson & Margalit (2026b; FM26b). The main functions
     are J_pl, A_pl, J_th, and A_th. The other functions are various intermediate expressions used to generate the final
-    fitting functions, along with numerical calculations and other useful approximate forms. Note that this module provides
-    pitch-angle averaged coefficients only.
+    fitting functions, along with numerical calculations and other useful approximate forms.
 
     This file can be imported as a module and contains the following functions and classes:
         * I_prime - eq. (32), Mahadevan et al. 1996 (hereafter, Mahadevan96)
